@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+    <ui:define name="content">
+  
+        username de User2:<h:outputText value="#{user2.username}"/><br/>
+        profissao de User3:<h:outputText value="#{user3.profession.title}"/>,
+        <h:outputText value="#{user3.profession.industry}"/><br/>
+        profissao de User4:<h:outputText value="#{user4.profession.title}"/>,
+        <h:outputText value="#{user4.profession.industry}"/><br/>
+        pegar dados da profissao via codigo:<h:outputText value="#{bean.user.profession.title}"/>,
+        <h:outputText value="#{bean.user.profession.industry}"/>
+    </ui:define>
+
+
+</ui:composition>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/publico.xhtml">
+
+            <ui:define name="content">
+
+                <div align="center">
+                    <h:panelGroup rendered="#{!empty param.login_error}">
+                        <span style="color:red"> Erro ao acessar o sistema.</span><br />
+
+                    </h:panelGroup>
+
+                    <p:fieldset legend="Acesso ao Sistema" style="width: 200px;height: 120px;;" >            
+
+                        <form method="post"  action="${request.contextPath}/j_spring_security_check">
+                            <table>
+                                <tr>
+                                    <td style="color: #0040a9;font-weight: bold">Usuario: </td>
+                                    <td><input placeholder='usuario'
+                                               required='required'
+                                               autocomplete='off'
+                                               type='text'
+                                               id="usuario"
+                                               name='j_username'/></td>
+                                </tr>
+                                <tr>
+
+                                    <td style="color: #0040a9;font-weight: bold">Senha: </td>
+                                    <td><input required='required'
+                                               placeholder='senha'
+                                               autocomplete='off'
+                                               type='password'
+                                               name='j_password'
+                                               /></td>
+                                </tr>
+                          
+                                <tr>
+
+                                    <td>&nbsp;</td>
+                                    <td align="right"><input  type="submit"
+                                                              value="Entrar"
+                                                              style="width:100px;height: 25px"
+                                                              class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" /></td>
+                                </tr>
+                            </table>
+
+                            <p>
+                                usuario deivid senha deivid = user e admin<br/>
+                                usuario teste senha teste = user
+                            </p>
+                            
+                        </form>
+
+                    </p:fieldset>
+                </div>
+
+                <script>
+
+                    $(document).ready(function() {
+                        $("#usuario").focus();
+                    });
+                </script>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

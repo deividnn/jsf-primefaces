@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Dialog Framework</title>
+    </h:head>
+    <h:body>
+
+        <h:form>
+
+            <p:commandButton value="abrir lista de clientes" 
+                             actionListener="#{clienteBean.abrirJanelaClientes()}">
+                <p:ajax event="dialogReturn"
+                        listener="#{clienteBean.pegarClienteSelecionado}"
+                        update="@form"/>
+            </p:commandButton>
+
+            <p:commandButton value="abrir lista de clientes customizada"
+                             actionListener="#{clienteBean.abrirJanelaClientesOpcoes()}">
+                <p:ajax event="dialogReturn" 
+                        listener="#{clienteBean.pegarClienteSelecionado}"
+                        update="@form"/>
+            </p:commandButton>
+
+            <br/>
+            
+            <p:panelGrid columns="2" rendered="#{clienteBean.cliente.id gt 0}">
+
+                <p:outputLabel value="Codigo"/>
+                <h:outputText value="#{clienteBean.cliente.id}"/>
+
+                <p:outputLabel value="Nome"/>
+                <h:outputText value="#{clienteBean.cliente.nome}"/>
+
+                <p:outputLabel value="Email"/>
+                <h:outputText value="#{clienteBean.cliente.email}"/>
+
+            </p:panelGrid>
+
+        </h:form>
+
+    </h:body>
+</html>
+

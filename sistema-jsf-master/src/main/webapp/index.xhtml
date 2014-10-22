@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Clientes</title>
+    </h:head>
+    <h:body>
+
+        <h:form id="form">
+
+            <p:panel header="Gerenciamento de Clientes">
+
+                <p:focus context="@form"/>
+                <p:messages/>
+
+                <p:panelGrid columns="2">
+
+
+                    <p:outputLabel value="Codigo:"
+                                   rendered="#{clienteBean.cliente.id ne null}"/>
+                    <p:inputText value="#{clienteBean.cliente.id}"
+                                 disabled="true"
+                                 rendered="#{clienteBean.cliente.id ne null}"/>
+
+                    <p:outputLabel value="Nome:"/>
+                    <p:inputText value="#{clienteBean.cliente.nome}"
+                                 maxlength="50"
+                                 size="50"
+                                 required="true"
+                                 requiredMessage="preencha o nome"/>
+
+
+                    <p:commandButton  value="Salvar"
+                                      actionListener="#{clienteBean.salvar()}"
+                                      update="@form">
+                        <p:confirm header="Confirmação" message="Tem certeza?" icon="ui-icon-alert" /> 
+                    </p:commandButton>
+
+                    <p:commandButton  value="Cancelar"
+                                      actionListener="#{clienteBean.cancelar()}"
+                                      rendered="#{clienteBean.cliente.id ne null}"
+                                      update="@form">
+                        <p:confirm header="Confirmação" message="Tem certeza?" icon="ui-icon-alert" /> 
+                    </p:commandButton>
+
+
+                </p:panelGrid>
+
+                <br/>
+
+                <p:panelGrid columns="3">
+                    <p:outputLabel value="Pesquisar:"/>
+                    
+                    <p:inputText maxlength="50" size="50" value="#{clienteBean.textBusca}">
+                        <p:ajax event="keyup" update=":form:lista" listener="#{clienteBean.pesquisar()}"/>
+                    </p:inputText>
+                    
+                    <p:selectOneMenu value="#{clienteBean.colunaBusca}">
+                        <p:ajax event="change"/>
+                        <f:selectItem itemValue="id" itemLabel="Codigo"/>
+                        <f:selectItem itemValue="nome" itemLabel="Nome"/>
+                    </p:selectOneMenu>
+
+                </p:panelGrid>
+
+                <p:dataTable value="#{clienteBean.lista}"
+                             var="cli"
+                             emptyMessage=""
+                             paginator="true"
+                             rows="5"
+                             id="lista"
+                             paginatorPosition="bottom">
+
+                    <p:column headerText="Codigo" width="90">
+                        <h:outputText value="#{cli.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{cli.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="Opcções" width="200">
+                        <p:commandButton value="excluir"
+                                         actionListener="#{clienteBean.excluir(cli)}"
+                                         immediate="true"
+                                         update="@form">
+                            <p:confirm header="Confirmação" message="Tem certeza?" icon="ui-icon-alert" />       
+                        </p:commandButton>
+                        <p:commandButton value="editar"
+                                         actionListener="#{clienteBean.editar(cli)}"
+                                         immediate="true"
+                                         update="@form">  
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+
+
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+            </p:panel>
+
+        </h:form>
+
+    </h:body>
+</html>
+
