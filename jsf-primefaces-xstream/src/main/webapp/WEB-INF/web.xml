@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param><!-- estagio do projeto-->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet><!-- controlado do jsf-->
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping><!-- extensao do projeto-->
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config><!-- tempo maximo de sessao ativa-->
+    <welcome-file-list>
+        <welcome-file>index.jsf</welcome-file>
+    </welcome-file-list><!-- pagina inicial-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/erro.xhtml</location>
+    </error-page><!-- chama a pagina de erro se algum recurso nao for encontrado-->
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/erro.xhtml</location>
+    </error-page><!-- chama a pagina de erro se a pagina expirar-->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/erro.xhtml</location>
+    </error-page><!-- chama a pagina de erro se o servidor lancar algum erro-->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/erro.xhtml</location>
+    </error-page><!-- chama a pagina de erro se ocorrer algum erro geral-->
+
+</web-app>

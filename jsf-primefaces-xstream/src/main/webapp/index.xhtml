@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cliente</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:focus context="@form"/><!-- configura foco no primeiro campo do formulario -->
+            <p:growl/><!-- componente que mostra as mensagens-->
+
+            <p:panelGrid columns="2" id='nota'>
+                <p:outputLabel value="Descricao:"
+                               for="descricao"/>
+                <p:outputLabel value="Numero:"
+                               for="numero"/>
+
+                <p:inputText 
+                    id="descricao"
+                    value="#{clienteBean.nota.info.descricao}"
+                    required="true"
+                    requiredMessage="preencha a descricao"
+                    maxlength="20"/>
+                <p:inputText 
+                    id="numero"
+                    value="#{clienteBean.nota.info.numero}"
+                    required="true"
+                    requiredMessage="preencha o numero"
+                    maxlength="9"/>
+            </p:panelGrid>
+
+            <br/>
+
+            <p:panelGrid columns="3" id='acoes'>
+                <p:commandButton value="Adicionar Cliente"
+                                 immediate="true"
+                                 update=":cliente"
+                                 onclick="PF('dlgcliente').show();"/>
+                <p:commandButton value="Gerar XML"
+                                 disabled="#{clienteBean.lista.size() eq 0}"
+                                 actionListener="#{clienteBean.gerarXML()}"
+                                 update="@form :xml"/>
+                <p:commandButton value="Ler XML"
+                                 immediate="true"
+                                 update="@form :lerxml"
+                                 onclick="PF('lerxml').show();"/>
+            </p:panelGrid>
+
+            <br/>
+
+            <p:dataTable value="#{clienteBean.lista}"
+                         var="cliente"
+                         emptyMessage="lista vazia"
+                         rows="10"
+                         id='lista'
+                         paginator="true">
+
+                <p:column headerText="Nome"
+                          sortBy="#{cliente.nome}">
+                    <h:outputText value="#{cliente.nome}"/>
+                </p:column>
+
+                <p:column headerText="Nascimento"
+                          width="150"
+                          sortBy="#{cliente.nascimento}">
+                    <h:outputText value="#{cliente.nascimento}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+            </p:dataTable>                        
+        </h:form>
+
+        <p:dialog
+            header="XML Gerado"
+            widgetVar="dlgxml"
+            width="600"
+            height="500"
+            closable="true"
+            modal="true"
+
+            ><!-- janela popup que mostra o xml gerado-->
+            <h:form id="xml">
+
+                <p:inputTextarea value="#{clienteBean.xmlFinal}"
+                                 cols="65"
+                                 autoResize="false"
+                                 rows="20"/>
+
+
+
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Ler XML" 
+                  width="750"
+                  height="300" 
+                  widgetVar="lerxml"
+                  resizable="false"
+                  modal="true"
+                  closable="true"
+                  draggable="false"
+                  closeOnEscape="true"
+                  > <!-- janela popup que le o xml-->
+
+
+            <h:form id="lerxml" enctype="multipart/form-data">
+
+                <p:fileUpload id="upload" 
+                              mode="advanced" 
+                              required="true"  
+                              cancelLabel="Cancelar XML"
+                              style="margin-top: 15px;"
+                              requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                              allowTypes="/(\.|\/)(xml)$/"
+                              invalidFileMessage="Tipo de arquivo não permitido" 
+                              invalidSizeMessage="Tamanho excedido(100kb)" 
+                              uploadLabel="Processar XML"
+                              fileLimit="1"
+                              fileLimitMessage="Apenas um XML por vez"
+                              dragDropSupport="true"
+                              label="Selecionar XML..." 
+                              multiple="false"
+                              fileUploadListener="#{clienteBean.lerXML}"
+                              sizeLimit="102400" 
+                              update="@form :form"/>   <!--componente de upload do primefaces -->                  
+
+
+            </h:form>
+
+        </p:dialog>
+
+
+        <p:dialog
+            header="Adicionar Cliente"
+            widgetVar="dlgcliente"
+            width="700"
+            height="200"
+            closable="true"
+            modal="true"
+
+            ><!-- janela popup que adiciona clientes-->
+            <h:form id="cliente">
+                <p:focus context="@form"/>
+                <p:growl/>
+
+
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Nome:"
+                                   for="nome"/>
+                    <p:inputText 
+                        id="nome"
+                        value="#{clienteBean.cliente.nome}"
+                        required="true"
+                        requiredMessage="preencha o nome"
+                        size="50"
+                        maxlength="50"/>
+
+                    <p:outputLabel value="Data Nascimento:"
+                                   for="nascimento"/>
+                    <p:calendar 
+                        id="nascimento"
+                        value="#{clienteBean.cliente.nascimento}"
+                        locale="pt" 
+                        label="Data Entrada"
+                        requiredMessage="selecione a data"
+                        required="true"
+                        effect="slide" 
+                        yearRange="c-100:c+10"
+                        navigator="true"                                            
+                        pattern="dd/MM/yyyy"
+                        mask="99/99/9999">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:calendar>
+
+                    <p:commandButton value="Adicionar"
+                                     actionListener="#{clienteBean.adicionarCliente()}"
+                                     update="@form :form:lista :form:acoes"/>
+
+                </p:panelGrid>
+
+
+
+
+
+            </h:form>
+        </p:dialog>
+    </h:body>
+
+</html>
+
